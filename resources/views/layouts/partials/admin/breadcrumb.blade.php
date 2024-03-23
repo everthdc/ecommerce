@@ -1,5 +1,5 @@
 @if (count($breadcrumbs))
-    <nav class="mb-4">
+    <nav class="mb-3">
         <ol class="flex flex-wrap">
             @foreach ($breadcrumbs as $item)
                 {{-- Todos empiezan con las primeras clases --}}
@@ -8,7 +8,7 @@
                     
                     {{-- Si el item tiene route definida se imprime como enlace --}}
                     @isset($item['route'])
-                        <a href="" class="opacity-60">
+                        <a href="{{$item['route']}}" class="opacity-60">
                             {{ $item['name'] }}
                         </a>
                     @else
