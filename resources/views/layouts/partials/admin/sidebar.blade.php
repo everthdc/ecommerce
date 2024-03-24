@@ -7,10 +7,18 @@
             'active' => request()->routeIs('admin.dashboard'),
         ],
         [
+            //Familias de productos
             'icon' => 'fa-solid fa-box-open',
             'name' => 'Familias',
             'route' => route('admin.families.index'),
             'active' => request()->routeIs('admin.families.*'),
+        ],
+        [
+            //Categorias de productos
+            'icon' => 'fa-solid fa-layer-group',
+            'name' => 'Categorias',
+            'route' => route('admin.categories.index'),
+            'active' => request()->routeIs('admin.categories.*'),
         ],
     ];
 @endphp
