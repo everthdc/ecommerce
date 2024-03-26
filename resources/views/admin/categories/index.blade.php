@@ -49,7 +49,7 @@
                             </td>
                             <td class="px-6 py-4">
                                 <a href="{{ route('admin.categories.edit', $category) }}">
-                                    Editar
+                                    <i class="fa-solid fa-pen mr-2"></i>Editar
                                 </a>
                             </td>
                         </tr>

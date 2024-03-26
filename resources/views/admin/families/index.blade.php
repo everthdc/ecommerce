@@ -43,12 +43,12 @@
                             </td>
                             <td class="px-6 py-4">
                                 <a href="{{ route('admin.families.edit', $family) }}">
-                                    Editar
+                                    <i class="fa-solid fa-pen mr-2"></i>Editar
                                 </a>
+                                
                             </td>
                         </tr>
                     @endforeach
-
 
                 </tbody>
             </table>
