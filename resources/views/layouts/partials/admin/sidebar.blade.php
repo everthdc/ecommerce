@@ -20,6 +20,14 @@
             'route' => route('admin.categories.index'),
             'active' => request()->routeIs('admin.categories.*'),
         ],
+        [
+            //Subcategorias de productos
+            'icon' => 'fa-solid fa-tags',
+            'name' => 'Subcategorias',
+            'route' => route('admin.subcategories.index'),
+            'active' => request()->routeIs('admin.subcategories.*'),
+        ],
+        
     ];
 @endphp
 
