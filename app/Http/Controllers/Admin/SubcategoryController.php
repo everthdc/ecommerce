@@ -27,9 +27,7 @@ class SubcategoryController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
-        $families = Family::all();
-        return view('admin.subcategories.create', compact('categories','families'));
+        return view('admin.subcategories.create');
     }
 
     /**
@@ -37,20 +35,20 @@ class SubcategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'category_id' => 'required|exists:categories,id',
-            'name' => 'required'
-        ]);
+        // $request->validate([
+        //     'category_id' => 'required|exists:categories,id',
+        //     'name' => 'required'
+        // ]);
 
-        Subcategory::create($request->all());
+        // Subcategory::create($request->all());
 
-        session()->flash('swal', [
-            'icon' => 'success',
-            'title' => '¡Bien hecho!',
-            'text' => 'Subcategoria creada correctamente'
-        ]);
+        // session()->flash('swal', [
+        //     'icon' => 'success',
+        //     'title' => '¡Bien hecho!',
+        //     'text' => 'Subcategoria creada correctamente'
+        // ]);
 
-        return redirect()->route('admin.subcategories.index');
+        // return redirect()->route('admin.subcategories.index');
     }
 
     /**
@@ -66,7 +64,7 @@ class SubcategoryController extends Controller
      */
     public function edit(Subcategory $subcategory)
     {
-        //
+        return view('admin.subcategories.edit', compact('subcategory'));
     }
 
     /**
