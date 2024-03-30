@@ -54,7 +54,7 @@
                                 {{ $subcategory->category->family->name }}
                             </td>
                             <td class="px-6 py-4">
-                                <a href="{{ route('admin.categories.edit', $subcategory) }}">
+                                <a href="{{ route('admin.subcategories.edit', $subcategory) }}">
                                     <i class="fa-solid fa-pen mr-2"></i>Editar
                                 </a>
                             </td>
