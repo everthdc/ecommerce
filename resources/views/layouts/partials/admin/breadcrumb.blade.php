@@ -25,7 +25,7 @@
         {{-- Te indica en que vista estas --}}
         {{-- Si la cantidad de enlaces recibidos es mayor a 1 se muestra, sino se oculta, ya que estas en una ruta tipo principal y es redundante mostrar lo mismo 2 veces --}}
         @if (count($breadcrumbs) > 1)
-            <h6 class="font-bold">
+            <h6 class="font-bold text-lg">
                 {{ end($breadcrumbs)['name'] }}
             </h6>
         @endif
