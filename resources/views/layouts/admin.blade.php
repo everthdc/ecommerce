@@ -72,12 +72,19 @@
 
     @stack('js')
 
+    {{-- Alerta para sesiones flash --}}
     @if (session('swal'))
         <script>
             Swal.fire({!! json_encode(session('swal')) !!});
         </script>
     @endif
 
+    {{-- Alerta para livewire --}}
+    <script>
+        Livewire.on('swal', data => {
+            Swal.fire(data[0]);
+        });
+    </script>
 
 </body>
 
