@@ -40,6 +40,7 @@ class SubcategoryEdit extends Component
 
 
     public function save(){
+        
         $this->validate([
             'subcategoryEdit.family_id' => 'required|exists:families,id',
             'subcategoryEdit.category_id' => 'required|exists:categories,id',

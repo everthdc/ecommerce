@@ -29,6 +29,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call(FamilySeeder::class);
 
-        Product::factory(150)->create();
+        Product::factory(50)->create();
     }
 }

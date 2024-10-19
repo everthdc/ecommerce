@@ -54,7 +54,7 @@
                                 {{ $product->price }}
                             </td>
                             <td class="px-6 py-4">
-                                <a href="{{ route('admin.families.edit', $product) }}">
+                                <a href="{{ route('admin.products.edit', $product) }}">
                                     <i class="fa-solid fa-pen mr-2"></i>Editar
                                 </a>
 
