@@ -27,7 +27,10 @@ class DatabaseSeeder extends Seeder
         
         Storage::makeDirectory('products');
 
-        $this->call(FamilySeeder::class);
+        $this->call([
+            FamilySeeder::class,
+            OptionSeeder::class,
+        ]);
 
         Product::factory(50)->create();
     }
