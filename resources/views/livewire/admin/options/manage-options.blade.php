@@ -8,7 +8,7 @@
                     Opciones
                 </h1>
 
-                <x-button wire:click="$set('openModal', true)">
+                <x-button wire:click="$set('newOption.openModal', true)">
                     Nuevo
                 </x-button>
             </div>
@@ -65,7 +65,7 @@
 
     </section>
 
-    <x-dialog-modal wire:model="openModal">
+    <x-dialog-modal wire:model="newOption.openModal">
 
         <x-slot name="title">
             Crear nueva opción
@@ -118,7 +118,7 @@
                 {{-- Listado del array --}}
                 <div class="mb-4 space-y-7">
 
-                    @foreach ($newOption['features'] as $index => $feature)
+                    @foreach ($newOption->features as $index => $feature)
 
                         <div class="p-6 rounded-lg border border-gray-300 relative"
                             wire:key="features-{{ $index }}">
@@ -140,7 +140,7 @@
                                         Valor
                                     </x-label>
 
-                                    @switch($newOption['type'])
+                                    @switch($newOption->type)
 
                                         @case(1)
 
@@ -184,10 +184,12 @@
 
                 </div>
 
-                <div class="flex justify-end">
-                    <x-button wire:click="addFeature">
-                        Agregar valor
-                    </x-button>
+                <div class="flex">
+
+                    <button class="w-full p-3.5 bg-blue-500 hover:bg-blue-600 text-white text-base rounded-md" wire:click="addFeature">
+                        <i class="fa-solid fa-plus mr-1"></i> Agregar valor
+                    </button>
+
                 </div>
 
             </div>
@@ -196,9 +198,9 @@
 
         <x-slot name="footer">
 
-            <button class="btn btn-blue" wire:click="addOption">
+            <x-button wire:click="addOption">
                 Guardar opción
-            </button>
+            </x-button>
 
         </x-slot>
 
