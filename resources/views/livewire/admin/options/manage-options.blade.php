@@ -16,21 +16,23 @@
 
         <div class="p-6">
 
-            <div class="space-y-6">
+            <div class="space-y-7">
 
-                {{-- Listar las opciones --}}
+                {{-- Listar las opciones de la BD --}}
                 @foreach ($options as $option)
-                    <div class="p-6 rounded-lg border border-gray-300 relative">
+
+                    <div class="p-6 rounded-lg border border-gray-300 relative" 
+                        wire:key="option-{{ $option->id }}">
 
                         {{-- Nombre de la opción que se pone por encima del div --}}
-                        <div class="absolute -top-3 px-3 bg-white">
+                        <div class="absolute -top-3 px-3 bg-neutral-100 font-bold border rounded-md">
                             <span>
                                 {{ $option->name }}
                             </span>
                         </div>
 
-                        {{-- Listar los Features --}}
-                        <div class="flex flex-wrap gap-3">
+                        {{-- Listar los Features (Valores) --}}
+                        <div class="flex flex-wrap gap-3 mt-1 mb-4">
 
                             @foreach ($option->features as $feature)
                                 {{-- Mostrar el detalle del feature de acuerdo a su tipo --}}
@@ -56,7 +58,13 @@
 
                         </div>
 
+                        {{-- Formulario para agregar nuevo valor en la opción --}}
+                        <div>
+                            <livewire:admin.options.add-new-feature :option="$option" :key="'add-new-feature-' . $option->id" />
+                        </div>
+
                     </div>
+
                 @endforeach
 
             </div>
@@ -123,7 +131,7 @@
                         <div class="p-6 rounded-lg border border-gray-300 relative"
                             wire:key="features-{{ $index }}">
 
-                            {{-- Boton eliminar feature añadido --}}
+                            {{-- Boton flotante eliminar feature añadido --}}
                             <div class="absolute -top-4 right-4 px-2 bg-white">
 
                                 <button wire:click="removeFeature({{ $index }})"
@@ -149,6 +157,7 @@
                                             placeholder="Ingrese el valor de la opción" />
                                             
                                             @break
+
                                         @case(2)
                                             
                                             <div class="flex items-center justify-between border border-gray-300 rounded-md h-[42px] px-3">

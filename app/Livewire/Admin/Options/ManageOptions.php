@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Options;
 
 use App\Livewire\Forms\Admin\Options\NewOptionForm;
 use App\Models\Option;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class ManageOptions extends Component
@@ -20,7 +21,13 @@ class ManageOptions extends Component
 
     }
 
-    
+    #[On('featureAdded')]
+    public function updateOptionList(){
+
+        //Cargar las opciones nuevamente, para que se actualice cuando se agrega un feature
+        $this->options = Option::with('features')->get();
+
+    }
 
     public function addFeature(){
         
