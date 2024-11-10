@@ -35,21 +35,39 @@
                         <div class="flex flex-wrap gap-3 mt-1 mb-4">
 
                             @foreach ($option->features as $feature)
+
                                 {{-- Mostrar el detalle del feature de acuerdo a su tipo --}}
                                 @switch($option->type)
                                     @case(1)
                                         {{-- Texto --}}
                                         <span
-                                            class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-400 border border-gray-500">
+                                            class="bg-gray-100 text-gray-800 text-xs font-medium pl-2.5 pr-1.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300 border border-gray-500">
                                             {{ $feature->description }}
+
+                                            <button class="ml-0.5" 
+                                                {{-- wire:click="deleteFeature({{ $feature->id }})" --}}
+                                                onclick="confirmDelete({{ $feature->id }})">
+
+                                                <i class="fa-solid fa-xmark hover:text-red-500"></i>
+
+                                            </button>
+
                                         </span>
                                     @break
 
                                     @case(2)
                                         {{-- Color --}}
-                                        <span class="inline-block h-6 w-6 shadow-lg rounded-full border-2 border-gray-300"
+                                        <div class="relative">
+                                            <span class="inline-block h-6 w-6 shadow-lg rounded-full border-2 border-gray-300"
                                             style="background-color: {{ $feature->value }}">
-                                        </span>
+                                            </span>
+
+                                            <button class="absolute -top-2 left-3 bg-red-500 hover:bg-red-600 size-4 flex justify-center rounded-full z-10"
+                                                {{-- wire:click="deleteFeature({{ $feature->id }})" --}}
+                                                onclick="confirmDelete({{ $feature->id }})">
+                                                <i class="fa-solid fa-xmark text-white text-xs"></i>
+                                            </button>
+                                        </div>
                                     @break
 
                                     @default
@@ -214,5 +232,33 @@
         </x-slot>
 
     </x-dialog-modal>
+
+    @push('js')
+        {{-- Alerta para confirmar eliminar feature --}}
+        <script>
+            function confirmDelete(featureId) {
+
+                Swal.fire({
+                    title: "¿Estás seguro?",
+                    text: "¡No podrás revertir esto!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "¡Sí, borralo!",
+                    cancelButtonText: "Cancelar"
+                }).then((result) => {
+
+                    if (result.isConfirmed) {
+                        //Ejecutar al metodo en el componente y pasarle el id del feature
+                        @this.call('deleteFeature', featureId);
+
+                    }
+                    
+                });
+                
+            }
+        </script>
+    @endpush
 
 </div>
