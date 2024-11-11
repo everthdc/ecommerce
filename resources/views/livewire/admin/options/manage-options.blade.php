@@ -26,6 +26,12 @@
 
                         {{-- Nombre de la opción que se pone por encima del div --}}
                         <div class="absolute -top-3 px-3 bg-neutral-100 font-bold border rounded-md">
+                            
+                            <button class="mr-1" 
+                                onclick="confirmDelete({{ $option->id }}, 'option')">
+                                <i class="fa-solid fa-trash-can text-red-500 hover:text-red-600"></i>
+                            </button>
+
                             <span>
                                 {{ $option->name }}
                             </span>
@@ -46,7 +52,7 @@
 
                                             <button class="ml-0.5" 
                                                 {{-- wire:click="deleteFeature({{ $feature->id }})" --}}
-                                                onclick="confirmDelete({{ $feature->id }})">
+                                                onclick="confirmDelete( {{ $feature->id }} , 'feature')">
 
                                                 <i class="fa-solid fa-xmark hover:text-red-500"></i>
 
@@ -64,7 +70,7 @@
 
                                             <button class="absolute -top-2 left-3 bg-red-500 hover:bg-red-600 size-4 flex justify-center rounded-full z-10"
                                                 {{-- wire:click="deleteFeature({{ $feature->id }})" --}}
-                                                onclick="confirmDelete({{ $feature->id }})">
+                                                onclick="confirmDelete({{ $feature->id }}, 'feature')">
                                                 <i class="fa-solid fa-xmark text-white text-xs"></i>
                                             </button>
                                         </div>
@@ -236,7 +242,7 @@
     @push('js')
         {{-- Alerta para confirmar eliminar feature --}}
         <script>
-            function confirmDelete(featureId) {
+            function confirmDelete(id, type) {
 
                 Swal.fire({
                     title: "¿Estás seguro?",
@@ -250,8 +256,26 @@
                 }).then((result) => {
 
                     if (result.isConfirmed) {
-                        //Ejecutar al metodo en el componente y pasarle el id del feature
-                        @this.call('deleteFeature', featureId);
+                        
+                        switch(type){
+                            case 'feature':
+
+                                //Ejecutar al metodo en el componente y pasarle el id del feature
+                                @this.call('deleteFeature', id);
+
+                                break;
+
+                            case 'option':
+
+                                //Ejecutar al metodo en el componente y pasarle el id del feature
+                                @this.call('deleteOption', id);
+
+                            break;
+
+                            default:
+
+                                break;
+                        }
 
                     }
                     

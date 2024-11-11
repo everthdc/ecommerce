@@ -53,6 +53,13 @@ class ManageOptions extends Component
 
     }
 
+    public function deleteOption(Option $option){
+
+        $option->delete();
+        $this->options = Option::with('features')->get();
+
+    }
+
     public function addOption(){
 
         //ejecutar el metodo save definido en el formOption
