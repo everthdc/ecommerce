@@ -12,6 +12,12 @@
     ],
 ]">
 
-    @livewire('admin.products.product-edit', [ 'product' => $product ])
+    <div class="mb-12">
+
+        @livewire('admin.products.product-edit', [ 'product' => $product ], key('product-edit-' . $product->id))
+
+    </div>
+
+    <livewire:admin.products.product-variants :product="$product" :key="'product-variants-' . $product->id"/>
 
 </x-admin-layout>
