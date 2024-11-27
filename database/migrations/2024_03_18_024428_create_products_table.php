@@ -21,7 +21,9 @@ return new class extends Migration
             $table->float('price');
 
             $table->foreignId('subcategory_id')
-                ->constrained();
+                ->constrained()
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 
             $table->timestamps();
         });

@@ -40,53 +40,54 @@
                             <div class="flex flex-wrap gap-3 mt-2">
 
                                 @foreach ($option->pivot->features as $feature)
-                                    {{-- Mostrar el detalle del feature de acuerdo a su tipo --}}
-                                    @switch($option->type)
-                                        @case(1)
-                                            {{-- Texto --}}
-                                            <span
-                                                class="bg-gray-100 text-gray-800 text-xs font-medium pl-2.5 pr-1.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300 border border-gray-500">
-                                                {{ $feature['description'] }}
-
-                                                <button class="ml-0.5" {{-- wire:click="deleteFeature({{ $feature->id }})" --}}
-                                                    onclick="confirmDeleteFeature( {{ $option->id }}, {{ $feature['id'] }} )">
-
-                                                    <i class="fa-solid fa-xmark hover:text-red-500"></i>
-
-                                                </button>
-
-                                            </span>
-                                        @break
-
-                                        @case(2)
-                                            {{-- Color --}}
-                                            <div class="relative">
+                                    <div wire:key="option-{{ $option->id }}-feature-{{ $feature['id'] }}">
+                                        {{-- Mostrar el detalle del feature de acuerdo a su tipo --}}
+                                        @switch($option->type)
+                                            @case(1)
+                                                {{-- Texto --}}
                                                 <span
-                                                    class="inline-block h-6 w-6 shadow-lg rounded-full border-2 border-gray-300"
-                                                    style="background-color: {{ $feature['value'] }}">
+                                                    class="bg-gray-100 text-gray-800 text-xs font-medium pl-2.5 pr-1.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300 border border-gray-500">
+                                                    {{ $feature['description'] }}
+
+                                                    <button class="ml-0.5" {{-- wire:click="deleteFeature({{ $feature->id }})" --}}
+                                                        onclick="confirmDeleteFeature( {{ $option->id }}, {{ $feature['id'] }} )">
+
+                                                        <i class="fa-solid fa-xmark hover:text-red-500"></i>
+
+                                                    </button>
+
                                                 </span>
+                                            @break
 
-                                                <button
-                                                    class="absolute -top-2 left-3 bg-red-500 hover:bg-red-600 size-4 flex justify-center rounded-full z-10"
-                                                    {{-- wire:click="deleteFeature({{ $feature->id }})" --}}
-                                                    onclick="confirmDeleteFeature( {{ $option->id }}, {{ $feature['id'] }} )">
-                                                    <i class="fa-solid fa-xmark text-white text-xs"></i>
-                                                </button>
-                                            </div>
-                                        @break
+                                            @case(2)
+                                                {{-- Color --}}
+                                                <div class="relative">
+                                                    <span
+                                                        class="inline-block h-6 w-6 shadow-lg rounded-full border-2 border-gray-300"
+                                                        style="background-color: {{ $feature['value'] }}">
+                                                    </span>
 
-                                        @default
-                                    @endswitch
+                                                    <button
+                                                        class="absolute -top-2 left-3 bg-red-500 hover:bg-red-600 size-4 flex justify-center rounded-full z-10"
+                                                        {{-- wire:click="deleteFeature({{ $feature->id }})" --}}
+                                                        onclick="confirmDeleteFeature( {{ $option->id }}, {{ $feature['id'] }} )">
+                                                        <i class="fa-solid fa-xmark text-white text-xs"></i>
+                                                    </button>
+                                                </div>
+                                            @break
+
+                                            @default
+                                        @endswitch
+                                    </div>
                                 @endforeach
 
                             </div>
 
                         </div>
                     @endforeach
-
                 @else
-
-                    <div class="p-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+                    <div class="p-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400"
+                        role="alert">
                         <span class="font-medium">Info alert!</span> No hay opciones registradas en este producto.
                     </div>
 

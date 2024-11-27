@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Products;
 
 use App\Models\Feature;
 use App\Models\Option;
+use App\Models\Variant;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -27,14 +28,15 @@ class ProductVariants extends Component
 
     public $openModal = false;
 
-    public function mount(){
+    public function mount()
+    {
 
         $this->options = Option::all();
-
     }
 
     //Resetear los campos cada que se cambia de opcion en el select
-    public function updatedVariantOptionId(){
+    public function updatedVariantOptionId()
+    {
 
         $this->variant['features'] = [
             [
@@ -43,17 +45,17 @@ class ProductVariants extends Component
                 'description' => '',
             ]
         ];
-
     }
 
     #[Computed()]
-    public function features(){
+    public function features()
+    {
 
         return Feature::where('option_id', $this->variant['option_id'])->get();
-
     }
 
-    public function addFeature(){
+    public function addFeature()
+    {
         $this->variant['features'][] = [
             'id' => '',
             'value' => '',
@@ -62,17 +64,20 @@ class ProductVariants extends Component
     }
 
     //Eliminar feature en el modal de crear
-    public function removeFeature($index){
+    public function removeFeature($index)
+    {
 
         //Sacar el elemento del array de acuerdo a su indice
         unset($this->variant['features'][$index]);
 
         //Refrescar los indices de los elementos restantes del array
         $this->variant['features'] = array_values($this->variant['features']);
-
     }
 
-    public function deleteOption($option_id){
+
+    //Eliminar opcion del producto
+    public function deleteOption($option_id)
+    {
 
         //Eliminar el registro de la tabla intermedia, ya que accedemos al metodo options del producto, que implica las opciones creadas sobre el producto
         $this->product->options()->detach($option_id);
@@ -80,34 +85,41 @@ class ProductVariants extends Component
         //Refrescamos
         $this->product = $this->product->fresh();
 
+        $this->generarVariantes();
+
     }
 
     //Eliminar feature de una opción creada
-    public function deleteFeature($option_id, $feature_id){
-        
+    public function deleteFeature($option_id, $feature_id)
+    {
+
         $this->product->options()->updateExistingPivot($option_id, [
-            'features' => array_filter($this->product->options->find($option_id)->pivot->features, function ($feature) use ($feature_id){
+            'features' => array_filter($this->product->options->find($option_id)->pivot->features, function ($feature) use ($feature_id) {
                 return $feature['id'] != $feature_id;
             })
         ]);
 
         $this->product =  $this->product->fresh();
 
+        $this->generarVariantes();
+        
     }
-    
 
-    public function feature_change($index){
+
+    public function feature_change($index)
+    {
 
         $feature = Feature::find($this->variant['features'][$index]['id']);
 
         //Si el feature existe se reemplazan
-        if($feature){
+        if ($feature) {
             $this->variant['features'][$index]['value'] = $feature->value;
             $this->variant['features'][$index]['description'] = $feature->description;
         }
     }
 
-    public function save(){
+    public function save()
+    {
 
         $this->validate([
             'variant.option_id' => 'required',
@@ -123,8 +135,57 @@ class ProductVariants extends Component
 
         $this->product =  $this->product->fresh();
 
+        $this->generarVariantes();
+
         $this->reset(['variant', 'openModal']);
-        
+    }
+
+    public function generarVariantes()
+    {
+
+        $features = $this->product->options->pluck('pivot.features');
+
+        $combinaciones = $this->generarCombinaciones($features);
+
+        //Primero borrar todas las variantes para poder generar las combinaciones, esto en caso de que se borre un feature de la opcion
+        $this->product->variants()->delete();
+
+        //Por cada grupo de features hay que generar una variante
+        foreach ($combinaciones as $combinacion) {
+
+            $variant = Variant::create([
+                'product_id' => $this->product->id,
+            ]);
+
+            $variant->features()->attach($combinacion);
+        };
+    }
+
+
+    public function generarCombinaciones($arrays, $indice = 0, $combinacion = [])
+    {
+
+        if ($indice == count($arrays)) {
+            return [$combinacion];
+        }
+
+        $resultado = [];
+
+        //Accedemos a la variable que contiene todos los arrays
+        //Con el foreach recorremos cada elemento del array correspondiente al indice
+        //Ej: $arrays[0] = primer array, $arrays[1] = segundo array, y asi...
+        foreach ($arrays[$indice] as $item) {
+
+            $combinacionTemporal = $combinacion; //Inicializarlo con lo que se tenga en $combinacion
+
+            $combinacionTemporal[] = $item['id']; //Se almacena el elemento del array
+
+
+            //Volver a llamar a la misma funcion
+            $resultado = array_merge($resultado, $this->generarCombinaciones($arrays, $indice + 1, $combinacionTemporal));
+        }
+
+        return $resultado;
     }
 
 

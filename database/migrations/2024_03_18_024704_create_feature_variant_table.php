@@ -15,9 +15,13 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('feature_id')
-                ->constrained();
+                ->constrained()
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
             $table->foreignId('variant_id')
-                ->constrained();
+                ->constrained()
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
                 
             $table->timestamps();
         });
