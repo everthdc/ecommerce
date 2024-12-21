@@ -21,6 +21,7 @@
                 @if ($product->options->count())
 
                     @foreach ($product->options as $option)
+
                         <div wire:key="product-option{{ $option->id }}"
                             class="p-6 border border-gray-300 rounded-md relative">
 
@@ -37,7 +38,7 @@
                             </div>
 
                             {{-- Listar los Features (Valores) --}}
-                            <div class="flex flex-wrap gap-3 mt-2">
+                            <div class="flex flex-wrap gap-3 mt-2 mb-4">
 
                                 @foreach ($option->pivot->features as $feature)
                                     <div wire:key="option-{{ $option->id }}-feature-{{ $feature['id'] }}">
@@ -81,6 +82,11 @@
                                     </div>
                                 @endforeach
 
+                            </div>
+
+                            {{-- Agregar feature a la opcion del producto --}}
+                            <div>
+                                <livewire:admin.products.add-feature-to-option :option="$option" :product="$product" :key="'add-feature-to-option-' . $option->id" />
                             </div>
 
                         </div>

@@ -6,6 +6,7 @@ use App\Models\Feature;
 use App\Models\Option;
 use App\Models\Variant;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class ProductVariants extends Component
@@ -30,7 +31,7 @@ class ProductVariants extends Component
 
     public function mount()
     {
-
+        //Cargar las opciones que serán para el modal
         $this->options = Option::all();
     }
 
@@ -54,6 +55,7 @@ class ProductVariants extends Component
         return Feature::where('option_id', $this->variant['option_id'])->get();
     }
 
+    //Agrega un nuevo cuadro para agregar feature en el modal
     public function addFeature()
     {
         $this->variant['features'][] = [
@@ -140,6 +142,7 @@ class ProductVariants extends Component
         $this->reset(['variant', 'openModal']);
     }
 
+    #[On('featureAddedToOption')]
     public function generarVariantes()
     {
 
