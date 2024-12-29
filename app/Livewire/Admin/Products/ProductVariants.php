@@ -162,6 +162,9 @@ class ProductVariants extends Component
 
             $variant->features()->attach($combinacion);
         };
+
+        //Emitir este evento cada que se generen las variantes
+        $this->dispatch('variant-generate');
     }
 
 

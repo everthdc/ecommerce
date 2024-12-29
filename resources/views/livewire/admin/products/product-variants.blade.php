@@ -2,7 +2,7 @@
 
 
     {{-- Lista de opciones --}}
-    <section class="rounded-lg border border-gray-200 bg-white shadow-lg mb-12">
+    <section class="rounded-lg border border-gray-200 bg-white shadow-lg">
 
         <header class="border-b border-gray-200 px-6 py-2">
             <div class="flex justify-between">
@@ -108,56 +108,58 @@
     </section>
 
     {{-- Lista de variantes --}}
-    <section class="rounded-lg border border-gray-200 bg-white shadow-lg">
+    @if ($product->variants->count())
+        <section class="rounded-lg border border-gray-200 bg-white shadow-lg mt-12">
 
-        <header class="border-b border-gray-200 px-6 py-2">
-            <div class="flex justify-between">
+            <header class="border-b border-gray-200 px-6 py-2">
+                <div class="flex justify-between">
 
-                <h1 class="text-lg font-semibold text-gray-700">
-                    Variantes
-                </h1>
+                    <h1 class="text-lg font-semibold text-gray-700">
+                        Variantes
+                    </h1>
+
+                </div>
+            </header>
+
+            <div class="p-6">
+
+                <ul class="divide-y -my-4">
+
+                    {{-- Accedemos a la relacion que tiene el producto con las variantes --}}
+                    @foreach ($product->variants as $item)
+
+                        <li class="py-4 flex items-center">
+
+                            <img src="{{ $item->image }}" 
+                                class="size-12 object-cover object-center">
+
+
+                            {{-- Acceder a los features de la variante --}}
+                            <p class="divide-x">
+
+                                @foreach ($item->features as $feature)
+                                    
+                                    <span class="px-3">
+                                        {{ $feature->description }}
+                                    </span>
+
+                                @endforeach
+
+                            </p>
+
+                            <a href="{{ route('admin.products.variants', [$product, $item]) }}" class="ml-auto btn btn-blue">
+                                Editar
+                            </a>
+
+                        </li>
+
+                    @endforeach
+                </ul>
 
             </div>
-        </header>
 
-        <div class="p-6">
-
-            <ul class="divide-y -my-4">
-
-                {{-- Accedemos a la relacion que tiene el producto con las variantes --}}
-                @foreach ($product->variants as $item)
-
-                    <li class="py-4 flex items-center">
-
-                        <img src="{{ $item->image }}" 
-                            class="size-12 object-cover object-center">
-
-
-                        {{-- Acceder a los features de la variante --}}
-                        <p class="divide-x">
-
-                            @foreach ($item->features as $feature)
-                                
-                                <span class="px-3">
-                                    {{ $feature->description }}
-                                </span>
-
-                            @endforeach
-
-                        </p>
-
-                        <a href="{{ route('admin.products.variants', [$product, $item]) }}" class="ml-auto btn btn-blue">
-                            Editar
-                        </a>
-
-                    </li>
-
-                @endforeach
-            </ul>
-
-        </div>
-
-    </section>
+        </section>
+    @endif
 
     {{-- Ventana modal --}}
     <x-dialog-modal wire:model="openModal">

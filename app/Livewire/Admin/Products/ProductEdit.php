@@ -7,6 +7,7 @@ use App\Models\Family;
 use App\Models\Subcategory;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -28,7 +29,7 @@ class ProductEdit extends Component
     public function mount($product){
 
         //Cargar solo los campos definidos en el metodo only
-        $this->productEdit = $product->only('sku', 'name', 'description', 'image_path', 'price', 'subcategory_id');
+        $this->productEdit = $product->only('sku', 'name', 'description', 'image_path', 'price', 'stock', 'subcategory_id');
         
         $this->families = Family::all();
 
@@ -67,6 +68,13 @@ class ProductEdit extends Component
         $this->productEdit['subcategory_id'] = '';
     }
 
+    //Refrescar el valor de product, es decir refresca el componente?
+    //Se ejecuta cada que se generan las variantes
+    #[On('variant-generate')]
+    public function updateProduct(){
+        $this->product = $this->product->fresh();
+    }
+
     #[Computed()]
     public function categories(){
         //Retorna las categorias dependiendo de la variable family_id
@@ -86,6 +94,7 @@ class ProductEdit extends Component
             'productEdit.name' => 'required|max:255',
             'productEdit.description' => 'nullable',
             'productEdit.price' => 'required|numeric|min:0',
+            'productEdit.stock' => 'required|numeric|min:0',
             'productEdit.subcategory_id' => 'required|exists:subcategories,id',
         ],[],[
             'image' => 'imagen',
@@ -93,6 +102,7 @@ class ProductEdit extends Component
             'product.name' => 'nombre',
             'product.description' => 'descripción',
             'product.price' => 'precio',
+            'product.stock' => 'stock',
             'product.subcategory_id' => 'subcategoría',
         ]);
 
