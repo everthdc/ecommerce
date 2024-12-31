@@ -18,3 +18,6 @@
     @apply bg-gray-500 text-white hover:bg-gray-700;
 }
 
+.btn-new-blue {
+    @apply bg-[#1481BA] text-white hover:bg-[#0f6b9c];
+}
