@@ -1,4 +1,5 @@
 <div>
+
     <header class="bg-slate-200">
 
         <x-container class="px-4 py-3 md:py-4">
@@ -49,4 +50,56 @@
         </x-container>
 
     </header>
+
+    {{-- Fondo oscuro transparente --}}
+    <div class="fixed top-0 left-0 inset-0 bg-black bg-opacity-25 z-10">
+    </div>
+
+    <div class="fixed top-0 left-0 z-20">
+
+        <div class="flex">
+
+            <div class="w-80 h-screen bg-white">
+
+                <div class="bg-slate-200 px-4 py-3 font-semibold">
+                    <div class="flex justify-between items-center">
+                        <span class="text-lg">
+                            Hola
+                        </span>
+    
+                        <button>
+                            <i class="fa fa-solid fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+
+                {{-- Lista de Familias --}}
+                <div class="h-[calc(100vh-52px)] overflow-auto">
+
+                    <ul>
+                        @foreach ($families as $family)
+                            <li>
+                                <a href=""
+                                    class="flex items-center justify-between px-4 py-4 text-gray-700 hover:bg-slate-100">
+
+                                    {{ $family->name }}
+
+                                    <i class="fa fa-solid fa-angle-right"></i>
+
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+
+                </div>
+
+            </div>
+
+            <div>
+
+            </div>
+
+        </div>
+
+    </div>
 </div>
