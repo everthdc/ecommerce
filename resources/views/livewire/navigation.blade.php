@@ -1,5 +1,10 @@
-<div>
+<div x-data="{
 
+    open: false,
+
+}">
+
+    {{-- Navbar --}}
     <header class="bg-slate-200">
 
         <x-container class="px-4 py-3 md:py-4">
@@ -7,8 +12,11 @@
             <div class="flex justify-between items-center space-x-8">
 
                 {{-- Boton menu --}}
-                <button class="text-xl md:text-3xl">
+                <button x-on:click="open = true" 
+                    class="text-xl md:text-3xl">
+
                     <i class="fa fa-solid fa-bars"></i>
+
                 </button>
 
                 {{-- Logo --}}
@@ -52,10 +60,13 @@
     </header>
 
     {{-- Fondo oscuro transparente --}}
-    <div class="fixed top-0 left-0 inset-0 bg-black bg-opacity-25 z-10">
+    <div x-show="open" x-on:click="open = false"
+        style="display:none" class="fixed top-0 left-0 inset-0 bg-black bg-opacity-25 z-10">
     </div>
 
-    <div class="fixed top-0 left-0 z-20">
+    {{-- Menu --}}
+    <div x-show="open" 
+        style="display:none"  class="fixed top-0 left-0 z-20">
 
         <div class="flex">
 
@@ -68,7 +79,7 @@
                             Hola
                         </span>
     
-                        <button>
+                        <button x-on:click="open = false" class="hover:text-red-500">
                             <i class="fa fa-solid fa-times"></i>
                         </button>
                     </div>
@@ -99,7 +110,7 @@
             </div>
 
             {{-- Seccion que tendrá las categorias de la familia --}}
-            <div class="w-80 xl:w-[57rem] pt-[52px] hidden md:block">
+            <div class="w-80 xl:w-[57rem] mt-[52px] hidden md:block">
                 
                 <div class="bg-white h-[calc(100vh-52px)] px-6 py-8 overflow-auto">
                     
