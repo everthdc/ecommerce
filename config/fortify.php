@@ -73,7 +73,8 @@ return [
     |
     */
 
-    'home' => '/dashboard',
+    //Cambiar la ruta a la que redirige cuando se cierra o inicia sesión
+    'home' => '/',
 
     /*
     |--------------------------------------------------------------------------

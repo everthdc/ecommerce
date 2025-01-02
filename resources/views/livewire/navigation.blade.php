@@ -40,9 +40,74 @@
 
                 {{-- Botones usuario --}}
                 <div class="flex items-center space-x-6 md:space-x-8">
-                    <button class="text-xl md:text-3xl">
-                        <i class="fa fa-solid fa-user"></i>
-                    </button>
+                    
+                    <x-dropdown>
+
+                        <x-slot name="trigger">
+                            {{-- Mostrar la foto de perfil del usuario si está logeado --}}
+                            @auth
+                                <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
+                                    <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                                </button>
+                            @else
+                                <button class="text-xl md:text-3xl">
+                                    <i class="fa fa-solid fa-user"></i>
+                                </button>
+                            @endauth
+
+                        </x-slot>
+
+                        <x-slot name="content">
+
+                            @guest
+
+                                {{-- Se muestra si no se ha iniciado sesión --}}
+                                <div class="px-4 py-3">
+
+                                    <div class="flex justify-center">
+                                        <a href="{{ route('login') }}" class="btn btn-new-blue">
+                                            Iniciar sesión
+                                        </a>
+                                    </div>
+
+                                    <p class="text-sm text-center mt-2">
+
+                                        ¿No tienes cuenta?
+
+                                        <a href="{{ route('register') }}"
+                                            class="text-[#1481BA] hover:underline">
+                                            Regístrate
+                                        </a>
+
+                                    </p>
+
+                                </div>
+
+                            @else
+
+                                <x-dropdown-link href="{{  route('profile.show') }}">
+                                    Mi perfil
+                                </x-dropdown-link>
+
+                                <div class="border-t border-gray-200">
+                                    <!-- Authentication -->
+                                    <form method="POST" action="{{ route('logout') }}" x-data>
+                                        @csrf
+
+                                        <x-dropdown-link href="{{ route('logout') }}"
+                                                @click.prevent="$root.submit();">
+                                            {{ __('Log Out') }}
+                                        </x-dropdown-link>
+                                    </form>
+                                </div>
+
+                            @endguest
+
+                        </x-slot>
+
+                    </x-dropdown>
+                    
+                    
 
                     <button class="text-xl md:text-3xl">
                         <i class="fa fa-solid fa-shopping-cart"></i>
