@@ -12,10 +12,11 @@
             <div class="flex justify-between items-center space-x-8">
 
                 {{-- Boton menu --}}
-                <button x-on:click="open = true" 
-                    class="text-xl md:text-3xl">
+                <button x-on:click="open = true">
 
-                    <i class="fa fa-solid fa-bars"></i>
+                    <i class="fa fa-solid fa-bars text-xl md:text-3xl"></i>
+
+                    <p class="text-xs font-bold">Menú</p>
 
                 </button>
 
@@ -84,6 +85,10 @@
                                 </div>
 
                             @else
+                            
+                                <div class="block px-4 py-2 text-xs text-gray-400">
+                                    Administrar cuenta
+                                </div>
 
                                 <x-dropdown-link href="{{  route('profile.show') }}">
                                     Mi perfil
