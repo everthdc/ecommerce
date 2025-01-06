@@ -20,6 +20,8 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    @stack('css')
+
     <!-- Styles -->
     @livewireStyles
 </head>
@@ -70,14 +72,14 @@
 
     @livewireScripts
 
-    @stack('js')
-
     {{-- Alerta para sesiones flash --}}
     @if (session('swal'))
         <script>
             Swal.fire({!! json_encode(session('swal')) !!});
         </script>
     @endif
+
+    @stack('js')
 
     {{-- Alerta para livewire --}}
     <script>
